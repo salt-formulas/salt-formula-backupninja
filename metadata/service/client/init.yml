@@ -1,0 +1,12 @@
+applications:
+- backupninja
+parameters:
+  _param:
+    backupninja_target_host: 127.0.0.1
+  backupninja:
+    client:
+      enabled: true
+      target:
+        engine: rsync
+        host: ${_param:backupninja_target_host}
+        user: backupninja

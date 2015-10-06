@@ -1,0 +1,15 @@
+Source: salt-formula-backupninja
+Maintainer: Ales Komarek <ales.komarek@tcpcloud.eu>
+Section: admin
+Priority: optional
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Homepage: http://www.tcpcloud.eu
+Vcs-Browser: https://github.com/tcpcloud/salt-formula-backupninja
+Vcs-Git: https://github.com/tcpcloud/salt-formula-backupninja.git
+
+Package: salt-formula-backupninja
+Architecture: all
+Depends: ${misc:Depends}, salt-master, reclass
+Description: Backupninja salt formula
+ Install and configure Backupninja backup system.

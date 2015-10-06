@@ -1,0 +1,7 @@
+applications:
+- backupninja
+parameters:
+  backupninja:
+    server:
+      enabled: true
+      rdiff: true
