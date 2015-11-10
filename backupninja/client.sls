@@ -88,7 +88,9 @@ backupninja_remote_handler_{{ service|replace('.', '_') }}:
   - defaults:
       service_config: {{ service_group }}/files/backupninja.conf
       {%- if client.config_monkeypatch is defined and client.config_monkeypatch %}
+      {%- if service in client.monkey_patched %}
       service_config_monkeypatch: {{ service_group }}/files/backupninja_monkeypatch.conf
+      {%- endif %}
       {%- endif %}
   - require:
     - pkg: backupninja_packages
