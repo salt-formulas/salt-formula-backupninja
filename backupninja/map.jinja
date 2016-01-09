@@ -22,34 +22,34 @@
 {%- endif %}
 
 {% set client = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['backupninja', 'debconf-utils'],
-        'service': 'backupninja',
-        'report_email': 'root',
-        'config': '/etc/default/backupninja',
-        'supported_services': services,
-        'monkey_patched': monkey_patched,
-        'config_monkeypatch': '{{ config_monkeypatch }}'
-    },
-    'RedHat': {
-        'pkgs': ['backupninja'],
-        'service': 'backupninja',
-        'report_email': 'root',
-        'config': '/etc/sysconfig/backupninja',
-        'monkey_patched': monkey_patched,
-        'supported_services': services
-    },
+  'Debian': {
+    'pkgs': ['backupninja', 'debconf-utils'],
+    'service': 'backupninja',
+    'report_email': 'root',
+    'config': '/etc/default/backupninja',
+    'supported_services': services,
+    'monkey_patched': monkey_patched,
+    'config_monkeypatch': '{{ config_monkeypatch }}'
+  },
+  'RedHat': {
+    'pkgs': ['backupninja'],
+    'service': 'backupninja',
+    'report_email': 'root',
+    'config': '/etc/sysconfig/backupninja',
+    'monkey_patched': monkey_patched,
+    'supported_services': services
+  },
 }, merge=salt['pillar.get']('backupninja:client')) %}
 
 {% set server = salt['grains.filter_by']({
-    'Debian': {
-        'pkgs': ['rsync'],
-        'home_dir': '/srv/backupninja',
-        'keys': [],
-    },
-    'RedHat': {
-        'pkgs': ['rsync'],
-        'home_dir': '/srv/backupninja',
-        'keys': [],
-    },
+  'Debian': {
+    'pkgs': ['rsync'],
+    'home_dir': '/srv/backupninja',
+    'keys': [],
+  },
+  'RedHat': {
+    'pkgs': ['rsync'],
+    'home_dir': '/srv/backupninja',
+    'keys': [],
+  },
 }, merge=salt['pillar.get']('backupninja:server')) %}
