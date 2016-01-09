@@ -1,25 +1,3 @@
-{% set services = [
-  'csb.server',
-  'gitlab.server',
-  'leonardo.server',
-  'moodle.server',
-  'mysql.server',
-  'postgresql.server',
-  'redmine.server',
-  'taiga.server',
-  'webcms.server',
-] %}
-
-{% set monkey_patched = [
-  'leonardo.server',
-  'postgresql.server',
-] %}
-
-{%- if grains.osrelease >= '14.04' %}
-{% set config_monkeypatch = True %}
-{%- else %}
-{% set config_monkeypatch = False %}
-{%- endif %}
 
 {% set client = salt['grains.filter_by']({
   'Debian': {
@@ -27,17 +5,12 @@
     'service': 'backupninja',
     'report_email': 'root',
     'config': '/etc/default/backupninja',
-    'supported_services': services,
-    'monkey_patched': monkey_patched,
-    'config_monkeypatch': '{{ config_monkeypatch }}'
   },
   'RedHat': {
     'pkgs': ['backupninja'],
     'service': 'backupninja',
     'report_email': 'root',
     'config': '/etc/sysconfig/backupninja',
-    'monkey_patched': monkey_patched,
-    'supported_services': services
   },
 }, merge=salt['pillar.get']('backupninja:client')) %}
 
