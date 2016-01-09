@@ -99,7 +99,7 @@ backupninja_remote_handler:
     - pkg: backupninja_packages
 
 {%- for backup_name, backup in service_grains.backupninja.backup.iteritems() %}
-{%- if backup.fs_include is defined %}
+{%- if backup.fs_includes is defined %}
 backupninja_remote_handler_{{ backup_name }}:
   file.managed:
   - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}
