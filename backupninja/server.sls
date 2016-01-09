@@ -21,7 +21,9 @@ backupninja_user:
     - user: backupninja_user
     - pkg: backupninja_server_packages
 
-{%- for key in server.keys %}
+{%- for key_name, key in server.key.iteritems() %}
+
+{%- if key.get('enabled', False) %}
 
 backupninja_key_{{ key.key }}:
   ssh_auth.present:
@@ -29,6 +31,8 @@ backupninja_key_{{ key.key }}:
   - name: {{ key.key }}
   - require:
     - file: /srv/backupninja
+
+{%- endif %}
 
 {%- endfor %}
 
