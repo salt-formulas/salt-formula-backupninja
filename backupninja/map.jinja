@@ -9,10 +9,12 @@
   'taiga.server',
   'webcms.server',
 ] %}
+
 {% set monkey_patched = [
   'leonardo.server',
   'postgresql.server',
 ] %}
+
 {%- if grains.osrelease >= '14.04' %}
 {% set config_monkeypatch = True %}
 {%- else %}

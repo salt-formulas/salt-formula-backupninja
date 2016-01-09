@@ -47,24 +47,49 @@ backupninja_mysql_handler:
 
 {%- endif %}
 
+backupninja_client_grains_dir:
+  file.directory:
+  - name: /etc/salt/grains.d
+  - mode: 700
+  - makedirs: true
+  - user: root
+
+{%- set service_grains = {'backupninja': {'backup': {}}} %}
+{%- for service_name, service in pillar.items() %}
+{%- if service.get('_support', {}).get('backupninja', {}).get('enabled', False) %}
+{%- set grains_fragment_file = service_name+'/meta/backupninja.yml' %}
+{%- macro load_grains_file() %}{% include grains_fragment_file %}{% endmacro %}
+{%- set grains_yaml = load_grains_file()|load_yaml %}
+{%- set _dummy = service_grains.backupninja.backup.update(grains_yaml.backup) %}
+{%- endif %}
+{%- endfor %}
+
+backupninja_client_grain:
+  file.managed:
+  - name: /etc/salt/grains.d/backupninja
+  - source: salt://backupninja/files/backupninja.grain
+  - template: jinja
+  - user: root
+  - mode: 600
+  - defaults:
+    service_grains: {{ service_grains|yaml }}
+  - require:
+    - file: backupninja_client_grains_dir
+
 {%- if client.target is defined %}
 
 {%- if client.target.engine in ["s3",] %}
-
 backupninja_duplicity_packages:
   pkg.installed:
   - names:
     - duplicity
-
 {%- endif %}
 
 {%- if client.target.engine in ["rdiff",] %}
-
 backupninja_duplicity_packages:
   pkg.installed:
   - names:
     - rdiff-backup
-
 {%- endif %}
 
 backupninja_remote_handler:
@@ -73,31 +98,18 @@ backupninja_remote_handler:
   - require:
     - pkg: backupninja_packages
 
-{%- for service in client.supported_services %}
-{%- if service in grains.get('roles', []) %}
-
-{%- for service_group in service.split('.') %}
-{%- if loop.first %}
-
-backupninja_remote_handler_{{ service|replace('.', '_') }}:
+{%- for backup_name, backup in service_grains.backupninja.backup.iteritems() %}
+{%- if backup.fs_include is defined %}
+backupninja_remote_handler_{{ backup_name }}:
   file.managed:
-  - name: /etc/backup.d/20{{ loop.index }}.{{ service_group }}.{{ client.target.engine }}
+  - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}
   - source: salt://backupninja/files/{{ client.target.engine }}.conf
   - template: jinja
   - mode: 600
   - defaults:
-      service_config: {{ service_group }}/files/backupninja.conf
-      {%- if client.config_monkeypatch is defined and client.config_monkeypatch %}
-      {%- if service in client.monkey_patched %}
-      service_config_monkeypatch: {{ service_group }}/files/backupninja_monkeypatch.conf
-      {%- endif %}
-      {%- endif %}
+      backup: {{ backup }}
   - require:
     - pkg: backupninja_packages
-
-{%- endif %}
-{%- endfor %}
-
 {%- endif %}
 {%- endfor %}
 

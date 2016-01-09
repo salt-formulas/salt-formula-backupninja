@@ -1,4 +1,3 @@
-
 {%- if pillar.backupninja is defined %}
 include:
 {%- if pillar.backupninja.client is defined %}
