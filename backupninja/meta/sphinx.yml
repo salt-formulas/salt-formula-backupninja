@@ -3,9 +3,14 @@ doc:
   description: Backupninja allows you to coordinate system backup by dropping a few simple configuration files into /etc/backup.d/. Most programs you might use for making backups don't have their own configuration file format.
   role:
   {%- if pillar.backupninja.client is defined %}
+  {%- from "backupninja/map.jinja" import client with context %}
     client:
       name: client
-      param: {}
+      param:
+        target_engine:
+          value: {{ client.target.engine }}
+        target_host:
+          value: {{ client.target.host }}
   {%- endif %}
   {%- if pillar.backupninja.server is defined %}
     server:
