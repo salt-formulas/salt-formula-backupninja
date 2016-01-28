@@ -30,6 +30,16 @@ Backup client with s3 remote target
           host: s3.domain.com
           bucket: bucketname
 
+Backup client with webdav target
+
+    backupninja:
+      client:
+        enabled: true
+        target:
+          engine: webdav
+          url: webdavs://none:e@backup.cloud/example.com/box.example.com/
+          auth: gss
+
 Backup server rsync/rdiff
 
     backupninja:

@@ -1,0 +1,2 @@
+kinit -kt /etc/krb5.keytab host/`hostname -f`
+
