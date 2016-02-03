@@ -102,7 +102,7 @@ backupninja_remote_handler:
 {%- if backup.fs_includes is defined %}
 backupninja_remote_handler_{{ backup_name }}:
   file.managed:
-  - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}
+  - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}.dup
   - source: salt://backupninja/files/{{ client.target.engine }}.conf
   - template: jinja
   - mode: 600
@@ -111,7 +111,6 @@ backupninja_remote_handler_{{ backup_name }}:
   - require:
     - pkg: backupninja_packages
 {%- endif %}
-{%- endfor %}
 
 {%- if client.target.auth is defined and client.target.auth == 'gss' %}
 backupninja_gss_helper_{{ backup_name }}_kinit:
@@ -133,6 +132,7 @@ backupninja_gss_helper_{{ backup_name }}_kdestroy:
     - pkg: backupninja_packages
 
 {%- endif %}
+{%- endfor %}
 
 {%- endif %}
 
