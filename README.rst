@@ -42,7 +42,7 @@ Backup client with webdav target
       client:
         enabled: true
         target:
-          engine: webdav
+          engine: dup
           url: webdavs://backup.cloud/example.com/box.example.com/
           auth: gss
 
