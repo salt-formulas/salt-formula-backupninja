@@ -43,7 +43,7 @@ Backup client with webdav target
         enabled: true
         target:
           engine: dup
-          url: webdavs://backup.cloud/example.com/box.example.com/
+          url: webdavs://user@backup.cloud/example.com/box.example.com/
           auth: gss
 
 Backup server rsync/rdiff
