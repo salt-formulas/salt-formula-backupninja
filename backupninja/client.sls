@@ -102,7 +102,7 @@ backupninja_remote_handler:
 {%- if backup.fs_includes is defined %}
 backupninja_remote_handler_{{ backup_name }}:
   file.managed:
-  - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}.dup
+  - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}
   - source: salt://backupninja/files/{{ client.target.engine }}.conf
   - template: jinja
   - mode: 600
