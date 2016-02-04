@@ -112,7 +112,7 @@ backupninja_remote_handler_{{ backup_name }}:
     - pkg: backupninja_packages
 {%- endif %}
 
-{%- if client.target.auth is defined and client.target.auth == 'gss' %}
+{%- if client.target.auth.gss is defined %}
 backupninja_gss_helper_{{ backup_name }}_kinit:
   file.managed:
   - name: /etc/backup.d/100.{{ backup_name }}-kinit.sh

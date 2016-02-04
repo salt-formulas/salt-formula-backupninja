@@ -44,7 +44,10 @@ Backup client with webdav target
         target:
           engine: dup
           url: webdavs://user@backup.cloud/example.com/box.example.com/
-          auth: gss
+          auth:
+            gss:
+              principal: host/${linux:network:fqdn}
+              keytab: /etc/krb5.keytab
 
 Backup server rsync/rdiff
 
