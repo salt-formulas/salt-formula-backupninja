@@ -60,16 +60,6 @@ backupninja_client_grains_dir:
   - makedirs: true
   - user: root
 
-{%- set service_grains = {'backupninja': {'backup': {}}} %}
-{%- for service_name, service in pillar.items() %}
-{%- if service.get('_support', {}).get('backupninja', {}).get('enabled', False) %}
-{%- set grains_fragment_file = service_name+'/meta/backupninja.yml' %}
-{%- macro load_grains_file() %}{% include grains_fragment_file %}{% endmacro %}
-{%- set grains_yaml = load_grains_file()|load_yaml %}
-{%- set _dummy = service_grains.backupninja.backup.update(grains_yaml.backup) %}
-{%- endif %}
-{%- endfor %}
-
 backupninja_client_grain:
   file.managed:
   - name: /etc/salt/grains.d/backupninja
@@ -77,8 +67,6 @@ backupninja_client_grain:
   - template: jinja
   - user: root
   - mode: 600
-  - defaults:
-    service_grains: {{ service_grains|yaml }}
   - require:
     - file: backupninja_client_grains_dir
 
@@ -104,20 +92,14 @@ backupninja_remote_handler:
   - require:
     - pkg: backupninja_packages
 
-{%- for backup_name, backup in service_grains.backupninja.backup.iteritems() %}
-{%- if backup.fs_includes is defined %}
-backupninja_remote_handler_{{ backup_name }}:
+backupninja_remote_handler_{{ client.target.engine }}:
   file.managed:
-  - name: /etc/backup.d/200.{{ backup_name }}.{{ client.target.engine }}
+  - name: /etc/backup.d/200.backup.{{ client.target.engine }}
   - source: salt://backupninja/files/{{ client.target.engine }}.conf
   - template: jinja
   - mode: 600
-  - defaults:
-      backup: {{ backup }}
   - require:
     - pkg: backupninja_packages
-{%- endif %}
-{%- endfor %}
 
 {%- if client.target.auth.gss is defined %}
 backupninja_gss_helper_kinit:
