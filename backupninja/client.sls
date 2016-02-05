@@ -111,6 +111,7 @@ backupninja_remote_handler_{{ backup_name }}:
   - require:
     - pkg: backupninja_packages
 {%- endif %}
+{%- endfor %}
 
 {%- if client.target.auth.gss is defined %}
 backupninja_gss_helper_{{ backup_name }}_kinit:
@@ -132,7 +133,6 @@ backupninja_gss_helper_{{ backup_name }}_kdestroy:
     - pkg: backupninja_packages
 
 {%- endif %}
-{%- endfor %}
 
 {%- endif %}
 
