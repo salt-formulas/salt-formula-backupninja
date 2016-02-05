@@ -15,6 +15,12 @@ backupninja_packages:
   pkg.installed:
   - names: {{ client.pkgs }}
 
+backups_dir:
+  file.directory:
+  - name: /var/backups
+  - user: root
+  - group: root
+
 {%- if pillar.postgresql is defined %}
 
 backupninja_postgresql_handler:

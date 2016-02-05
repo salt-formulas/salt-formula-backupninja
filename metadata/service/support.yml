@@ -1,6 +1,8 @@
 parameters:
   backupninja:
     _support:
+      backupninja:
+        enabled: true
       collectd:
         enabled: false
       heka:

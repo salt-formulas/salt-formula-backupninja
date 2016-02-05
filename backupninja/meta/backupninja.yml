@@ -1,0 +1,5 @@
+backup:
+  linux:
+    fs_includes:
+    - /var/backups
+    fs_excludes: []
