@@ -12,6 +12,8 @@ Sample pillars
 
 Backup client with ssh/rsync remote target
 
+.. code-block:: yaml
+
     backupninja:
       client:
         enabled: true
@@ -22,6 +24,8 @@ Backup client with ssh/rsync remote target
 
 Backup client with s3 remote target
 
+.. code-block:: yaml
+
     backupninja:
       client:
         enabled: true
@@ -30,7 +34,24 @@ Backup client with s3 remote target
           host: s3.domain.com
           bucket: bucketname
 
+Backup client with webdav target
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        target:
+          engine: dup
+          url: webdavs://user@backup.cloud/example.com/box.example.com/
+          auth:
+            gss:
+              principal: host/${linux:network:fqdn}
+              keytab: /etc/krb5.keytab
+
 Backup server rsync/rdiff
+
+.. code-block:: yaml
 
     backupninja:
       server:

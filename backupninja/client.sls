@@ -19,7 +19,7 @@ backupninja_packages:
 
 backupninja_postgresql_handler:
   file.managed:
-  - name: /etc/backup.d/100.pgsql
+  - name: /etc/backup.d/102.pgsql
   - source: salt://backupninja/files/handler/pgsql.conf
   - template: jinja
   - mode: 600
@@ -78,7 +78,7 @@ backupninja_client_grain:
 
 {%- if client.target is defined %}
 
-{%- if client.target.engine in ["s3",] %}
+{%- if client.target.engine in ["s3","webdav",] %}
 backupninja_duplicity_packages:
   pkg.installed:
   - names:
@@ -110,6 +110,27 @@ backupninja_remote_handler_{{ backup_name }}:
       backup: {{ backup }}
   - require:
     - pkg: backupninja_packages
+{%- endif %}
+
+{%- if client.target.auth.gss is defined %}
+backupninja_gss_helper_{{ backup_name }}_kinit:
+  file.managed:
+  - name: /etc/backup.d/100.{{ backup_name }}-kinit.sh
+  - source: salt://backupninja/files/gss_kinit
+  - template: jinja
+  - mode: 600
+  - require:
+    - pkg: backupninja_packages
+
+backupninja_gss_helper_{{ backup_name }}_kdestroy:
+  file.managed:
+  - name: /etc/backup.d/199.{{ backup_name }}-kdestroy.sh
+  - source: salt://backupninja/files/gss_kdestroy
+  - template: jinja
+  - mode: 600
+  - require:
+    - pkg: backupninja_packages
+
 {%- endif %}
 {%- endfor %}
 
