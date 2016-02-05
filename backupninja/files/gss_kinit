@@ -1,2 +1,2 @@
-kinit -kt {{ client.target.auth.gss.get("keytab", "/etc/krb5.keytab") }} {{ client.target.auth.gss.get("principal", "$(hostname -f)") }}
+kinit -kt {{ client.target.auth.gss.get("keytab", "/etc/krb5.keytab") }} {{ client.target.auth.gss.get("principal", "host/$(hostname -f)") }}
 
