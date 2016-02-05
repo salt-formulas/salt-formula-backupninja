@@ -42,8 +42,8 @@ Backup client with webdav target
       client:
         enabled: true
         target:
-          engine: dup
-          url: webdavs://user@backup.cloud/example.com/box.example.com/
+          engine: webdav
+          url: webdavs://backup.cloud.example.com/box.example.com/
           auth:
             gss:
               principal: host/${linux:network:fqdn}
