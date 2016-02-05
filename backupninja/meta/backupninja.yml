@@ -1,5 +1,5 @@
 backup:
-  linux:
+  backupninja:
     fs_includes:
     - /var/backups
     fs_excludes: []
