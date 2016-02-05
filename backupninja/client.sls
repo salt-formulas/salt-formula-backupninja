@@ -131,7 +131,7 @@ backupninja_gss_helper_kinit:
 
 backupninja_gss_helper_kdestroy:
   file.managed:
-  - name: /etc/backup.d/199.kdestroy.sh
+  - name: /etc/backup.d/999.kdestroy.sh
   - source: salt://backupninja/files/gss_kdestroy
   - template: jinja
   - mode: 600
