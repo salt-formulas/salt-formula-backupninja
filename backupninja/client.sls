@@ -114,18 +114,18 @@ backupninja_remote_handler_{{ backup_name }}:
 {%- endfor %}
 
 {%- if client.target.auth.gss is defined %}
-backupninja_gss_helper_{{ backup_name }}_kinit:
+backupninja_gss_helper_kinit:
   file.managed:
-  - name: /etc/backup.d/100.{{ backup_name }}-kinit.sh
+  - name: /etc/backup.d/100.kinit.sh
   - source: salt://backupninja/files/gss_kinit
   - template: jinja
   - mode: 600
   - require:
     - pkg: backupninja_packages
 
-backupninja_gss_helper_{{ backup_name }}_kdestroy:
+backupninja_gss_helper_kdestroy:
   file.managed:
-  - name: /etc/backup.d/199.{{ backup_name }}-kdestroy.sh
+  - name: /etc/backup.d/199.kdestroy.sh
   - source: salt://backupninja/files/gss_kdestroy
   - template: jinja
   - mode: 600
