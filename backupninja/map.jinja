@@ -5,12 +5,14 @@
     'service': 'backupninja',
     'report_email': 'root',
     'config': '/etc/default/backupninja',
+    'cacert_file': '/etc/ssl/certs/ca-certificates.crt',
   },
   'RedHat': {
     'pkgs': ['backupninja'],
     'service': 'backupninja',
     'report_email': 'root',
     'config': '/etc/sysconfig/backupninja',
+    'cacert_file': '/etc/pki/tls/certs/ca-bundle.crt',
   },
 }, merge=salt['pillar.get']('backupninja:client')) %}
 
