@@ -1,15 +1,2 @@
-{%- from "backupninja/map.jinja" import client with context %}
+kinit -kt {{ client.target.auth.gss.get("keytab", "/etc/krb5.keytab") }} {{ client.target.auth.gss.get("principal", "$(hostname -f)") }}
 
-{%- set principal = "host/`hostname -f`" -%}
-
-{%- if client.target.auth.gss.principal is defined -%}
-{%- set principal = client.target.auth.gss.principal -%}
-{%- endif -%}
-
-{%- set keytab = "/etc/krb5.keytab" -%}
-
-{%- if client.target.auth.gss.keytab is defined -%}
-{%- set keytab = client.target.auth.gss.keytab -%}
-{%- endif -%}
-
-kinit -kt {{ keytab }} {{ principal }}
