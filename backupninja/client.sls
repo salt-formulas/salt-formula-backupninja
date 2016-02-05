@@ -84,7 +84,7 @@ backupninja_client_grain:
 
 {%- if client.target is defined %}
 
-{%- if client.target.engine in ["s3","webdav",] %}
+{%- if client.target.engine in ["s3","dup",] %}
 backupninja_duplicity_packages:
   pkg.installed:
   - names:
