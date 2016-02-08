@@ -77,6 +77,17 @@ backupninja_duplicity_packages:
   pkg.installed:
   - names:
     - duplicity
+
+duplicity_salt:
+  file.managed:
+  - name: /usr/local/sbin/duplicity_salt.sh
+  - source: salt://backupninja/files/duplicity_salt.sh
+  - template: jinja
+  - mode: 700
+  - user: root
+  - group: root
+  - require:
+    - pkg: backupninja_packages
 {%- endif %}
 
 {%- if client.target.engine in ["rdiff",] %}
