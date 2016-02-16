@@ -1,4 +1,4 @@
-{%- from "backupninja/map.jinja" import client with context %}
+{%- from "backupninja/map.jinja" import client, service_grains with context %}
 {%- if client.enabled %}
 
 {%- if pillar.postgresql is defined or pillar.mysql is defined %}
@@ -52,6 +52,27 @@ backupninja_mysql_handler:
     - service: mysql_service
 
 {%- endif %}
+
+{%- for backup_name, backup in service_grains.backupninja.backup.iteritems() %}
+{%- set backup_index = loop.index %}
+{%- for action in backup.get('actions', []) %}
+
+backupninja_{{ backup_name }}_action_{{ loop.index }}:
+  file.managed:
+    - name: /etc/backup.d/0{{ backup_index }}.{{ backup_name }}_{{ loop.index }}.{{ backup.get('handler', 'sh') }}
+    - source: salt://backupninja/files/handler/{{ backup.get('handler', 'sh') }}.conf
+    - template: jinja
+    - mode: 600
+    - require_in:
+      - file: backupninja_remote_handler
+    - require:
+      - pkg: backupninja_packages
+    - defaults:
+        backup: {{ backup }}
+        action: {{ action }}
+
+{%- endfor %}
+{%- endfor %}
 
 backupninja_client_grains_dir:
   file.directory:
