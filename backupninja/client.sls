@@ -59,7 +59,7 @@ backupninja_mysql_handler:
 
 backupninja_{{ backup_name }}_action_{{ loop.index }}:
   file.managed:
-    - name: /etc/backup.d/0{{ backup_index }}.{{ backup_name }}_{{ loop.index }}.{{ backup.get('handler', 'sh') }}
+    - name: /etc/backup.d/1{{ backup_index }}.{{ backup_name }}_{{ loop.index }}.{{ backup.get('handler', 'sh') }}
     - source: salt://backupninja/files/handler/{{ backup.get('handler', 'sh') }}.conf
     - template: jinja
     - mode: 600
