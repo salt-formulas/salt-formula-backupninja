@@ -15,6 +15,15 @@ backupninja_packages:
   pkg.installed:
   - names: {{ client.pkgs }}
 
+backupninja_conf:
+  file.managed:
+  - name: /etc/backupninja.conf
+  - source: salt://backupninja/files/backupninja.conf
+  - template: jinja
+  - mode: 600
+  - require:
+    - pkg: backupninja_packages
+
 backups_dir:
   file.directory:
   - name: /var/backups
