@@ -1,14 +1,14 @@
 
 {% set client = salt['grains.filter_by']({
   'Debian': {
-    'pkgs': ['backupninja', 'debconf-utils'],
+    'pkgs': ['backupninja', 'debconf-utils', 'bsd-mailx'],
     'service': 'backupninja',
     'report': {'email': 'root'},
     'config': '/etc/default/backupninja',
     'cacert_file': '/etc/ssl/certs/ca-certificates.crt',
   },
   'RedHat': {
-    'pkgs': ['backupninja'],
+    'pkgs': ['backupninja', 'mailx'],
     'service': 'backupninja',
     'report': {'email': 'root'},
     'config': '/etc/sysconfig/backupninja',
