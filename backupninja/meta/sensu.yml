@@ -1,0 +1,8 @@
+check:
+  local_backup_{{ grains['fqdn'] }}:
+    command: "PATH=$PATH:/usr/local/sbin duplicity_salt.sh nagios 24"
+    interval: 3600
+    timeout: 300
+    occurrences: 1
+    subscribers:
+    - {{ grains['fqdn']|replace('.', '-') }}
