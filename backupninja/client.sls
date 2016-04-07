@@ -112,8 +112,7 @@ duplicity_salt:
   file.managed:
   - name: /usr/local/sbin/duplicity_salt.sh
   - source: salt://backupninja/files/duplicity_salt.sh
-  - template: jinja
-  - mode: 700
+  - mode: 755
   - user: root
   - group: root
   - require:

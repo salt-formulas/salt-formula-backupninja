@@ -1,12 +1,11 @@
-{%- from "backupninja/map.jinja" import client, service_grains with context -%}
 #!/bin/bash
 
 if [ $EUID -ne 0 ]; then
     exec /usr/bin/sudo $0 $*
 fi
 
-DUPLICITY_ARGS="--no-encryption --progress --ssl-cacert-file={{ client.cacert_file }}"
-BACKUP_URL="{{ client.target.url }}"
+DUPLICITY_ARGS="--progress $(grep -E '^options\ ?=' /etc/backup.d/200.backup.dup |cut -d = -f 2)"
+BACKUP_URL="$(grep -E '^desturl\ ?=' /etc/backup.d/200.backup.dup |cut -d = -f 2)"
 
 while getopts :f:d:v: opt; do
     case "$opt" in
@@ -22,20 +21,12 @@ TOL=$2
 
 action_prepare() {
     trap action_cleanup INT TERM EXIT
-    {%- if client.target.auth.gss is defined %}
-    kinit -kt {{ client.target.auth.gss.get("keytab", "/etc/krb5.keytab") }} {{ client.target.auth.gss.get("principal", "host/$(hostname -f)") }}
-    {%- else %}
-    return 0
-    {%- endif %}
+    [ -f /etc/backup.d/100.kinit.sh ] && . /etc/backup.d/100.kinit.sh
 }
 
 action_cleanup() {
     trap true INT TERM EXIT
-    {%- if client.target.auth.gss is defined %}
-    kdestroy || true
-    {%- else %}
-    return 0
-    {%- endif %}
+    [ -f /etc/backup.d/999.kdestroy.sh ] && . /etc/backup.d/999.kdestroy.sh
 }
 
 restore() {
