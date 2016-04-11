@@ -17,7 +17,7 @@ while getopts :f:d:v: opt; do
     esac
 done
 shift $((OPTIND-1))
-TOL=$2
+TOL=$[$2*3600]
 
 action_prepare() {
     trap action_cleanup INT TERM EXIT
@@ -55,11 +55,11 @@ nagios() {
         exit_critical "duplicity not working correctly"
     fi
 
-    LAST=$(date -d "$(echo ${dup_status[@]} | sed -n -e 's/^.*Chain end time: //p' | awk '{print $1,$2,$3,$4,$5}')" +"%Y%m%d%H")
-    TODATE=$(date +"%Y%m%d%H")
+    LAST=$(date -d "$(echo ${dup_status[@]} | sed -n -e 's/^.*Chain end time: //p' | awk '{print $1,$2,$3,$4,$5}')" +"%s")
+    TODATE=$(date +"%s")
 
     if [ $[TODATE-$TOL] -gt $LAST ]; then
-        exit_critical "Last backup $[TODATE-$LAST] hours ago."
+        exit_critical "Last backup $[(TODATE-LAST)/3600] hours ago."
     else
         exit_ok "Last backup: $LAST"
     fi
