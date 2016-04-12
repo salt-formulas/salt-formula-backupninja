@@ -17,7 +17,6 @@ while getopts :f:d:v: opt; do
     esac
 done
 shift $((OPTIND-1))
-TOL=$[$2*3600]
 
 action_prepare() {
     trap action_cleanup INT TERM EXIT
@@ -40,6 +39,7 @@ status() {
 }
 
 nagios() {
+    TOL=$1
     EXITVAL=2
     read -ra dup_status <<< $(status)
 
@@ -94,7 +94,10 @@ usage() {
 case $1 in
     restore) action_prepare && restore ;;
     status) action_prepare && status ;;
-    nagios) action_prepare && nagios ;;
+    nagios)
+        TOL=$[$2*3600]
+        action_prepare && nagios $TOL
+        ;;
     list-files) action_prepare && list_files ;;
     *) usage ;;
 esac
