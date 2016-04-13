@@ -4,6 +4,7 @@ if [ $EUID -ne 0 ]; then
     exec /usr/bin/sudo $0 $*
 fi
 
+export KRB5CCNAME=/tmp/krb5cc_duplicity_salt
 DUPLICITY_ARGS="--progress $(grep -E '^options\ ?=' /etc/backup.d/200.backup.dup | sed 's,options[\ ]*=[\ ]*,,g')"
 BACKUP_URL="$(grep -E '^desturl\ ?=' /etc/backup.d/200.backup.dup | sed 's,desturl[\ ]*=[\ ]*,,g')"
 
