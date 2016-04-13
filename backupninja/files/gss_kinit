@@ -1,4 +1,3 @@
 {%- from "backupninja/map.jinja" import client with context -%}
-export KRB5CCNAME=/tmp/krb5cc_backupninja
 kinit -kt {{ client.target.auth.gss.get("keytab", "/etc/krb5.keytab") }} {{ client.target.auth.gss.get("principal", "host/$(hostname -f)") }}
 
