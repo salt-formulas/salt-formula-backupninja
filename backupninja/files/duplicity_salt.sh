@@ -62,7 +62,7 @@ nagios() {
     if [ $[TODATE-$TOL] -gt $LAST ]; then
         exit_critical "Last backup $[(TODATE-LAST)/3600] hours ago."
     else
-        exit_ok "Last backup: $LAST"
+        exit_ok "Last backup: $[(TODATE-LAST)/3600] hours ago."
     fi
 }
 
