@@ -1,0 +1,17 @@
+[logstreamer_backupninja]
+type = "LogstreamerInput"
+log_directory = "/var/log"
+file_match = 'backupninja\.log\-?(?P<Index>\d+)?(\.gz)?'
+priority = ["^Index"]
+decoder = "Sandbox_backupninja"
+
+[Sandbox_backupninja]
+type = "PayloadRegexDecoder"
+match_regex = '(?P<Timestamp>\w+ \d+ [0-9:]+) (?P<Severity>\w+): (?P<Payload>.*)'
+timestamp_layout = "Jan 02 15:04:05"
+
+[Sandbox_backupninja.severity_map]
+Debug = 7
+Info = 6
+Warning = 4
+Error = 3
