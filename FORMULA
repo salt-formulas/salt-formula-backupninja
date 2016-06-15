@@ -1,0 +1,8 @@
+name: backupninja
+os: Debian, RedHat
+os_family: Debian, RedHat
+version: 201606
+release: 1
+summary: Backupninja salt formula
+description: Install and configure Backupninja backup system.
+top_level_dir: backupninja
