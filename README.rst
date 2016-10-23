@@ -30,9 +30,11 @@ Backup client with s3 remote target
       client:
         enabled: true
         target:
-          engine: s3
-          host: s3.domain.com
-          bucket: bucketname
+          engine: dup
+          url: s3+http://bucket-name/folder-name
+          auth:
+            awsaccesskeyid: awsaccesskeyid
+            awssecretaccesskey: awssecretaccesskey
 
 Backup client with webdav target
 
