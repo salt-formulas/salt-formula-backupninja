@@ -32,7 +32,6 @@ backupninja_postgresql_handler:
     - file: backupninja_remote_handler
   - require:
     - pkg: backupninja_packages
-    - service: postgresql_service
 
 {%- endif %}
 
@@ -48,7 +47,6 @@ backupninja_mysql_handler:
     - file: backupninja_remote_handler
   - require:
     - pkg: backupninja_packages
-    - service: mysql_service
 
 {%- endif %}
 
