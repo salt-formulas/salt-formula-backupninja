@@ -1,16 +1,6 @@
 {%- from "backupninja/map.jinja" import client, service_grains with context %}
 {%- if client.enabled %}
 
-{%- if pillar.postgresql is defined or pillar.mysql is defined %}
-include:
-{%- if pillar.postgresql is defined %}
-- postgresql
-{%- endif %}
-{%- if pillar.mysql is defined %}
-- mysql
-{%- endif %}
-{%- endif %}
-
 backupninja_packages:
   pkg.installed:
   - names: {{ client.pkgs }}
@@ -103,6 +93,7 @@ backupninja_client_grain:
 {%- if client.target is defined %}
 
 {%- if client.target.engine in ["s3","dup",] %}
+
 backupninja_duplicity_packages:
   pkg.installed:
   - names:
@@ -117,13 +108,16 @@ duplicity_salt:
   - group: root
   - require:
     - pkg: backupninja_packages
+
 {%- endif %}
 
 {%- if client.target.engine in ["rdiff",] %}
+
 backupninja_duplicity_packages:
   pkg.installed:
   - names:
     - rdiff-backup
+
 {%- endif %}
 
 backupninja_remote_handler:
@@ -142,6 +136,7 @@ backupninja_remote_handler_{{ client.target.engine }}:
     - pkg: backupninja_packages
 
 {%- if client.target.auth is defined and client.target.auth.gss is defined %}
+
 backupninja_gss_helper_kinit:
   file.managed:
   - name: /etc/backup.d/100.kinit.sh
