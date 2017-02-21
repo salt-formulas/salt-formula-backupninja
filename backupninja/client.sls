@@ -14,6 +14,21 @@ backupninja_conf:
   - require:
     - pkg: backupninja_packages
 
+backupninja_patch:
+  module.run:
+  - name: file.sed
+  - path: /usr/share/backupninja/rsync
+  - before: '$nice su -c "$rsync ${rsync_options[@]} --delete-excluded $filelist_flag $excludes $batch_option $orig $dest_path" | tee -a $log'
+  - after: '$nice su -c "`echo $rsync ${rsync_options[@]} --delete-excluded $filelist_flag $excludes $batch_option $orig $dest_path`" | tee -a $log'
+  - flags: 'g'
+  - require:
+    - pkg: backupninja_packages
+
+backupninja_client_bash:
+  file.symlink:
+  - name: /bin/sh
+  - target: /bin/bash
+
 backups_dir:
   file.directory:
   - name: /var/backups

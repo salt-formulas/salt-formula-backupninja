@@ -21,6 +21,11 @@ backupninja_user:
     - user: backupninja_user
     - pkg: backupninja_server_packages
 
+backupninja_server_bash:
+  file.symlink:
+  - name: /bin/sh
+  - target: /bin/bash
+
 {%- for key_name, key in server.key.iteritems() %}
 
 {%- if key.get('enabled', False) %}
