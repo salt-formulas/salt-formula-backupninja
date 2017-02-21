@@ -18,9 +18,9 @@ backupninja_patch:
   module.run:
   - name: file.sed
   - path: /usr/share/backupninja/rsync
-  - before: '$nice su -c "$rsync ${rsync_options[@]} --delete-excluded $filelist_flag $excludes $batch_option $orig $dest_path" | tee -a $log'
-  - after: '$nice su -c "`echo $rsync ${rsync_options[@]} --delete-excluded $filelist_flag $excludes $batch_option $orig $dest_path`" | tee -a $log'
-  - flags: 'g'
+  - before: '\$nice su -c "\$rsync \${rsync_options[@]} --delete-excluded \$filelist_flag \$excludes \$batch_option \$orig \$dest_path" | tee -a \$log'
+  - after: '\$nice su -c "`echo \$rsync \${rsync_options[@]} --delete-excluded \$filelist_flag \$excludes \$batch_option \$orig \$dest_path`" | tee -a \$log'
+  - flags: '-g'
   - require:
     - pkg: backupninja_packages
 
