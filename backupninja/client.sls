@@ -118,6 +118,34 @@ backupninja_duplicity_packages:
 
 {%- endif %}
 
+{%- if client.target.engine in ["rsync",] %}
+
+manage_rsync_sh_onlyif_backupninja_1.0.1-2_is_installed:
+  file.managed:
+  - name: /usr/share/backupninja/rsync
+  - source: salt://backupninja/files/rsync.sh
+  - mode: 755
+  - user: root
+  - group: root
+  - onlyif:
+    - dpkg -l | grep backupninja | grep 1.0.1-2
+  - require:
+    - pkg: backupninja_packages
+
+manage_rsync_sh_onlyif_backupninja_1.0.1-1_is_installed:
+  file.managed:
+  - name: /usr/share/backupninja/rsync
+  - source: salt://backupninja/files/rsync.sh
+  - mode: 755
+  - user: root
+  - group: root
+  - onlyif:
+    - dpkg -l | grep backupninja | grep 1.0.1-1
+  - require:
+    - pkg: backupninja_packages
+
+{%- endif %}
+
 backupninja_remote_handler:
   file.absent:
   - name: /etc/backup.d/200.{{ client.target.engine }}
