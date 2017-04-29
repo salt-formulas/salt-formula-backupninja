@@ -1,2 +1,0 @@
-{%- from "backupninja/map.jinja" import service_grains with context -%}
-{{ service_grains|yaml(False) }}

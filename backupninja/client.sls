@@ -71,23 +71,6 @@ backupninja_{{ backup_name }}_action_{{ loop.index }}:
 {%- endfor %}
 {%- endfor %}
 
-backupninja_client_grains_dir:
-  file.directory:
-  - name: /etc/salt/grains.d
-  - mode: 700
-  - makedirs: true
-  - user: root
-
-backupninja_client_grain:
-  file.managed:
-  - name: /etc/salt/grains.d/backupninja
-  - source: salt://backupninja/files/backupninja.grain
-  - template: jinja
-  - user: root
-  - mode: 600
-  - require:
-    - file: backupninja_client_grains_dir
-
 {%- if client.target is defined %}
 
 {%- if client.target.engine in ["s3","dup",] %}

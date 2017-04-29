@@ -1,0 +1,6 @@
+grain:
+  backupninja:
+    {%- if pillar.backupninja.client is defined %}
+    {%- from "backupninja/map.jinja" import service_grains with context %}
+    {{ service_grains|yaml(False)|indent(4) }}
+    {%- endif %}
