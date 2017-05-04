@@ -4,11 +4,12 @@ applications:
 - backupninja
 parameters:
   _param:
-    backupninja_backup_host: backupninja-server-host
+    backupninja_backup_host: ${_param:infra_config_address}
+    backupninja_engine: rsync
   backupninja:
     client:
       enabled: true
       target:
-        engine: rsync
+        engine: ${_param:backupninja_engine}
         host: ${_param:backupninja_backup_host}
         user: backupninja
