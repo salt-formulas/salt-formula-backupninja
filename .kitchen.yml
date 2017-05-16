@@ -41,23 +41,23 @@ platforms:
 
 suites:
 
-  - name: rdiff
+  - name: server_rdiff
     provisioner:
       pillars-from-files:
-        backupninja.sls: tests/pillar/rdiff.sls
+        backupninja.sls: tests/pillar/server_rdiff.sls
 
-  - name: rsync
+  - name: client_rsync
     provisioner:
       pillars-from-files:
-        backupninja.sls: tests/pillar/rsync.sls
+        backupninja.sls: tests/pillar/client_rsync.sls
 
-  - name: s3
+  - name: client_s3
     provisioner:
       pillars-from-files:
-        backupninja.sls: tests/pillar/s3.sls
+        backupninja.sls: tests/pillar/client_s3.sls
 
-  - name: webdav
+  - name: client_webdav
     provisioner:
       pillars-from-files:
-        backupninja.sls: tests/pillar/webdav.sls
+        backupninja.sls: tests/pillar/client_webdav.sls
 # vim: ft=yaml sw=2 ts=2 sts=2 tw=125
