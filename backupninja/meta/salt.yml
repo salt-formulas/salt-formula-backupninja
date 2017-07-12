@@ -3,4 +3,7 @@ grain:
     {%- if pillar.get('backupninja', {}).get('client') %}
     {%- from "backupninja/map.jinja" import service_grains with context %}
     {{ service_grains|yaml(False)|indent(4) }}
+    {%- else %}
+    backupninja:
+      backup: {}
     {%- endif %}
