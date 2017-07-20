@@ -1,5 +1,0 @@
-backup:
-  backupninja:
-    fs_includes:
-    - /var/backups
-    fs_excludes: []

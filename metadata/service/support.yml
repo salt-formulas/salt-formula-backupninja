@@ -2,7 +2,7 @@ parameters:
   backupninja:
     _support:
       backupninja:
-        enabled: true
+        enabled: false
       collectd:
         enabled: false
       heka:
