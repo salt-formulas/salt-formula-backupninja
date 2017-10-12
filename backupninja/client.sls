@@ -135,6 +135,8 @@ backupninja_remote_handler:
   - require:
     - pkg: backupninja_packages
 
+{%- if client.target.engine not in ["local"] %}
+
 backupninja_remote_handler_{{ client.target.engine }}:
   file.managed:
   - name: /etc/backup.d/200.backup.{{ client.target.engine }}
@@ -143,6 +145,8 @@ backupninja_remote_handler_{{ client.target.engine }}:
   - mode: 600
   - require:
     - pkg: backupninja_packages
+
+{%- endif %}
 
 {%- if client.target.auth is defined and client.target.auth.gss is defined %}
 

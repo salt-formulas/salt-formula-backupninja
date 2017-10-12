@@ -73,6 +73,16 @@ Backup server rsync/rdiff
             key: ssh-key
 
 
+Backup client with local storage
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        target:
+          engine: local
+
 More information
 ================
 
