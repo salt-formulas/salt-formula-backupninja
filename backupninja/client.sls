@@ -20,8 +20,7 @@ backups_dir:
   - user: root
   - group: root
 
-{%- if pillar.postgresql is defined %}
-
+{%- if pillar.postgresql is defined or pillar.maas is defined %}
 backupninja_postgresql_handler:
   file.managed:
   - name: /etc/backup.d/102.pgsql
