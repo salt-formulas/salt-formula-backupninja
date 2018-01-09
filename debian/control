@@ -10,6 +10,6 @@ Vcs-Git: https://github.com/tcpcloud/salt-formula-backupninja.git
 
 Package: salt-formula-backupninja
 Architecture: all
-Depends: ${misc:Depends}, salt-master, reclass
+Depends: ${misc:Depends}
 Description: Backupninja salt formula
  Install and configure Backupninja backup system.
