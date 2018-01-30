@@ -38,16 +38,6 @@ backupninja_key_{{ key.key }}:
 
 {%- for node_name, node_grains in salt['mine.get']('*', 'grains.items').iteritems() %}
 
-/srv/backupninja/{{ node_name }}:
-  file.directory:
-  - mode: 700
-  - user: backupninja
-  - group: backupninja
-  - makedirs: true
-  - require:
-    - user: backupninja_user
-    - pkg: backupninja_server_packages
-
 {%- for backup_name, backup in node_grains.get('backupninja', {}).get('backup', {}).iteritems() %}
 {%- for fs_include in backup.fs_includes %}
 
@@ -58,7 +48,8 @@ backupninja_key_{{ key.key }}:
   - group: backupninja
   - makedirs: true
   - require:
-    - file: /srv/backupninja/{{ node_name }}
+    - user: backupninja_user
+    - pkg: backupninja_server_packages
 
 {%- endfor %}
 {%- endfor %}
