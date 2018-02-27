@@ -3,7 +3,22 @@ grain:
     {%- if pillar.get('backupninja', {}).get('client') %}
     {%- from "backupninja/map.jinja" import service_grains with context %}
     {{ service_grains|yaml(False)|indent(4) }}
+      {#- client addresses #}
+      {%- set addresses = [] %}
+      {%- set ips = salt['grains.get']("fqdn_ip4")|list %}
+      {%- if ips %}
+        {%- for ip in ips %}
+          {%- if not (ip|string).startswith('127.')  %}
+            {%- do addresses.append(ip) %}
+          {%- endif %}
+        {%- endfor %}
+      {%- endif %}
+      {%- if addresses %}
+      client:
+        addresses: {{ addresses|yaml }}
+      {%- endif %}
     {%- else %}
     backupninja:
       backup: {}
     {%- endif %}
+

@@ -20,11 +20,13 @@
   'Debian': {
     'pkgs': ['rsync'],
     'home_dir': '/srv/backupninja',
+    'restrict_clients': True,
     'keys': [],
   },
   'RedHat': {
     'pkgs': ['rsync'],
     'home_dir': '/srv/backupninja',
+    'restrict_clients': True,
     'keys': [],
   },
 }, merge=salt['pillar.get']('backupninja:server')) %}

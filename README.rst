@@ -72,6 +72,13 @@ Backup server rsync/rdiff
             enabled: true
             key: ssh-key
 
+Backup server without strict client policy restriction
+
+.. code-block:: yaml
+
+    backupninja:
+      server:
+        restrict_clients: false
 
 Backup client with local storage
 

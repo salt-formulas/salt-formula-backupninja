@@ -25,10 +25,29 @@ backupninja_user:
 
 {%- if key.get('enabled', False) %}
 
+{%- set clients = [] %}
+{%- if server.restrict_clients %}
+  {%- for node_name, node_grains in salt['mine.get']('*', 'grains.items').iteritems() %}
+    {%- if node_grains.get('backupninja', {}).get('client') %}
+    {%- set client = node_grains.backupninja.get("client") %}
+      {%- if client.get('addresses') and client.get('addresses', []) is iterable %}
+        {%- for address in client.addresses %}
+          {%- do clients.append(address|string) %}
+        {%- endfor %}
+      {%- endif %}
+    {%- endif %}
+  {%- endfor %}
+{%- endif %}
+
 backupninja_key_{{ key.key }}:
   ssh_auth.present:
   - user: backupninja
   - name: {{ key.key }}
+  - options:
+    - no-pty
+{%- if clients %}
+    - from="{{ clients|join(',') }}"
+{%- endif %}
   - require:
     - file: /srv/backupninja
 
