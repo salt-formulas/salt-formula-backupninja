@@ -9,9 +9,9 @@ backupninja_user:
   user.present:
   - name: backupninja
   - system: true
-  - home: /srv/backupninja
+  - home: {{ server.home_dir }}
 
-/srv/backupninja:
+{{ server.home_dir }}:
   file.directory:
   - mode: 700
   - user: backupninja
@@ -49,7 +49,7 @@ backupninja_key_{{ key.key }}:
     - from="{{ clients|join(',') }}"
 {%- endif %}
   - require:
-    - file: /srv/backupninja
+    - file: {{ server.home_dir }}
 
 {%- endif %}
 
@@ -60,7 +60,7 @@ backupninja_key_{{ key.key }}:
 {%- for backup_name, backup in node_grains.get('backupninja', {}).get('backup', {}).iteritems() %}
 {%- for fs_include in backup.fs_includes %}
 
-/srv/backupninja/{{ node_name }}{{ fs_include }}:
+{{ server.home_dir }}/{{ node_name }}{{ fs_include }}:
   file.directory:
   - mode: 700
   - user: backupninja

@@ -40,6 +40,7 @@ Backup client with ssh/rsync remote target with specific rsync options
         target:
           engine: rsync
           engine_opts: "-av --delete --recursive --safe-links"
+          home_dir: /srv/volumes/backup/backupninja
           host: 10.10.10.208
           user: backupninja
 
