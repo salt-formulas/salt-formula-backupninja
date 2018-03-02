@@ -30,6 +30,19 @@ Backup client with ssh/rsync remote target
           host: 10.10.10.208
           user: backupninja
 
+Backup client with ssh/rsync remote target with specific rsync options
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        target:
+          engine: rsync
+          engine_opts: "-av --delete --recursive --safe-links"
+          host: 10.10.10.208
+          user: backupninja
+
 Backup client with s3 remote target
 
 .. code-block:: yaml
