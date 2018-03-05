@@ -20,6 +20,36 @@ backups_dir:
   - user: root
   - group: root
 
+{%- if client.backup_times is defined %}
+
+delete_cron_file:
+  file.absent:
+  - name: /etc/cron.d/backupninja
+  - require:
+    - pkg: backupninja_packages
+
+create_cron_job:
+  cron.present:
+  - name: if [ -x /usr/sbin/backupninja ]; then /usr/sbin/backupninja --run; fi
+  - user: root
+  {%- if client.backup_times.day_of_week is defined %}
+  - dayweek: {{ client.backup_times.day_of_week }}
+  {%- endif %}
+  {%- if client.backup_times.day_of_month is defined %}
+  - daymonth: {{ client.backup_times.day_of_month }}
+  {%- endif %}
+  {%- if client.backup_times.hour is defined %}
+  - hour: {{ client.backup_times.hour }}
+  {%- endif %}
+  {%- if client.backup_times.minute is defined %}
+  - minute: {{ client.backup_times.minute }}
+  {%- endif %}
+  {%- if client.get('auto_backup_disable', False) %}
+  - commented: True
+  {%- endif %}
+
+{%- endif %}
+
 {%- if pillar.postgresql is defined or pillar.maas is defined %}
 backupninja_postgresql_handler:
   file.managed:

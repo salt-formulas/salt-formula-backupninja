@@ -59,6 +59,48 @@ Backup client with webdav target
               principal: host/${linux:network:fqdn}
               keytab: /etc/krb5.keytab
 
+Backup client with exact backup times
+
+
+.. note:: This settings will configure global backupninja backup to be
+   triggered at exactly set times.
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        auto_backup_disabled: false
+        backup_times:
+          day_of_week: 1
+          hour: 2
+          minute: 32
+
+.. note:: This will trigger backup every monday at 2:32 AM.
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        auto_backup_disabled: false
+        backup_times:
+          day_of_month: 24
+          hour: 14
+          minute: 12
+
+.. note:: This will trigger backup every 24th day of every month at 14:12 (2:12 PM).
+
+.. note:: Available parameters:
+   ``day_of_week`` (0, 3, 6 ...). If not set, defaults to '*'.
+   ``day_of_month`` (20, 25, 12, ...). If not set, defaults to '*'.
+     Only ``day_of_week`` or ``day_of_month`` can be defined at the same time.
+   ``hour`` (1, 10, 15, ...). If not defined, defaults to `1`. Uses 24 hour format.
+   ``minute`` (5, 10, 59, ...). If not defined, defaults to `00`.
+
+..note:: Parameter ``auto_backup_disabled`` is optional. It disables automatic
+  backup when set to true. It's set to ``false``by default when not defined.
+
 Backup server rsync/rdiff
 
 .. code-block:: yaml
