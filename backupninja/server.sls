@@ -51,6 +51,13 @@ backupninja_key_{{ key.key }}:
   - require:
     - file: {{ server.home_dir }}
 
+{%- else %}
+
+backupninja_key_{{ key.key }}:
+  ssh_auth.absent:
+  - user: backupninja
+  - name: {{ key.key }}
+
 {%- endif %}
 
 {%- endfor %}
