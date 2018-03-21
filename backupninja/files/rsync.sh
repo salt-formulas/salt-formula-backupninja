@@ -259,7 +259,7 @@ function eval_config {
   fi
 
   ssh_cmd_base="ssh -T -o PasswordAuthentication=no -p $port -i $id_file"
-  ssh_cmd="$ssh_cmd_base $user@$host"
+  ssh_cmd="$ssh_cmd_base $user@$host bash"
 
   if [ "$from" == "remote" ] || [ "$dest" == "remote" ]; then
     if [ "$testconnect" == "yes" ] && [ "$protocol" == "ssh" ]; then

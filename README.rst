@@ -115,6 +115,21 @@ Backup client with exact backup times
 ..note:: Parameter ``auto_backup_disabled`` is optional. It disables automatic
   backup when set to true. It's set to ``false``by default when not defined.
 
+Backup client with defined number of backups to keep:
+
+..code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+          engine: rsync
+          host: 10.10.10.208
+          user: backupninja
+          keep: 4
+
+  ..note:: The ``keep`` parameter defines number of backups to keep. If not
+    defined it's set to ``7`` by default.
+
 Backup server rsync/rdiff
 
 .. code-block:: yaml
