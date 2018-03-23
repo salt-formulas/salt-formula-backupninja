@@ -113,7 +113,7 @@ Client run backup in mupltiple times.
         scheduling:
           when:
             - everyday at 5
-            - tuesday at 05:30
+            - Tuesday at 05:30
             - 25 at 23:45
             - hourly
 
