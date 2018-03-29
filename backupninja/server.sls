@@ -21,46 +21,14 @@ backupninja_user:
     - user: backupninja_user
     - pkg: backupninja_server_packages
 
-{%- for key_name, key in server.key.iteritems() %}
-
-{%- if key.get('enabled', False) %}
-
-{%- set clients = [] %}
-{%- if server.restrict_clients %}
-  {%- for node_name, node_grains in salt['mine.get']('*', 'grains.items').iteritems() %}
-    {%- if node_grains.get('backupninja', {}).get('client') %}
-    {%- set client = node_grains.backupninja.get("client") %}
-      {%- if client.get('addresses') and client.get('addresses', []) is iterable %}
-        {%- for address in client.addresses %}
-          {%- do clients.append(address|string) %}
-        {%- endfor %}
-      {%- endif %}
-    {%- endif %}
-  {%- endfor %}
-{%- endif %}
-
-backupninja_key_{{ key.key }}:
-  ssh_auth.present:
+{{ server.home_dir }}/.ssh/authorized_keys:
+  file.managed:
   - user: backupninja
-  - name: {{ key.key }}
-  - options:
-    - no-pty
-{%- if clients %}
-    - from="{{ clients|join(',') }}"
-{%- endif %}
+  - group: backupninja
+  - template: jinja
+  - source: salt://backupninja/files/authorized_keys
   - require:
     - file: {{ server.home_dir }}
-
-{%- else %}
-
-backupninja_key_{{ key.key }}:
-  ssh_auth.absent:
-  - user: backupninja
-  - name: {{ key.key }}
-
-{%- endif %}
-
-{%- endfor %}
 
 {%- for node_name, node_grains in salt['mine.get']('*', 'grains.items').iteritems() %}
 
