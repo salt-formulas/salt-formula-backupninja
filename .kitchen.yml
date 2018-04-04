@@ -51,10 +51,20 @@ suites:
       pillars-from-files:
         backupninja.sls: tests/pillar/client_rsync.sls
 
+  - name: client_rsync_backup_times
+    provisioner:
+      pillars-from-files:
+        backupninja.sls: tests/pillar/client_rsync_backup_times.sls
+
   - name: client_s3
     provisioner:
       pillars-from-files:
         backupninja.sls: tests/pillar/client_s3.sls
+
+  - name: client_s3_disabled_auto
+    provisioner:
+      pillars-from-files:
+        backupninja.sls: tests/pillar/client_s3_disabled_auto.sls
 
   - name: client_webdav
     provisioner:
