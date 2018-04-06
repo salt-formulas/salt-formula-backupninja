@@ -75,10 +75,6 @@ Backup client with webdav target
 
 Backup client with exact backup times
 
-
-.. note:: This settings will configure global backupninja backup to be
-   triggered at exactly set times.
-
 .. code-block:: yaml
 
     backupninja:
@@ -89,8 +85,6 @@ Backup client with exact backup times
           day_of_week: 1
           hour: 2
           minute: 32
-
-.. note:: This will trigger backup every monday at 2:32 AM.
 
 .. code-block:: yaml
 
@@ -103,32 +97,18 @@ Backup client with exact backup times
           hour: 14
           minute: 12
 
-.. note:: This will trigger backup every 24th day of every month at 14:12 (2:12 PM).
-
-.. note:: Available parameters:
-   ``day_of_week`` (0, 3, 6 ...). If not set, defaults to '*'.
-   ``day_of_month`` (20, 25, 12, ...). If not set, defaults to '*'.
-     Only ``day_of_week`` or ``day_of_month`` can be defined at the same time.
-   ``hour`` (1, 10, 15, ...). If not defined, defaults to `1`. Uses 24 hour format.
-   ``minute`` (5, 10, 59, ...). If not defined, defaults to `00`.
-
-..note:: Parameter ``auto_backup_disabled`` is optional. It disables automatic
-  backup when set to true. It's set to ``false``by default when not defined.
-
-Backup client with defined number of backups to keep:
+Backup client with defined number of backups to keep
 
 ..code-block:: yaml
 
     backupninja:
       client:
         enabled: true
+        target:
           engine: rsync
           host: 10.10.10.208
           user: backupninja
           keep: 4
-
-  ..note:: The ``keep`` parameter defines number of backups to keep. If not
-    defined it's set to ``7`` by default.
 
 Backup server rsync/rdiff
 
