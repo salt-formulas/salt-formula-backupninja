@@ -141,6 +141,43 @@ Backup client with local storage
         target:
           engine: local
 
+
+Client scheduling in rsync engine
+=================================
+
+Client run backup at 5am every day.
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        target:
+          engine: rsync
+        scheduling:
+          when:
+            - everyday at 05
+
+
+Client run backup in mupltiple times.
+
+.. code-block:: yaml
+
+    backupninja:
+      client:
+        enabled: true
+        target:
+          engine: rsync
+        scheduling:
+          when:
+            - everyday at 5
+            - Tuesday at 05:30
+            - 25 at 23:45
+            - hourly
+
+If multiple "when" options are present, then they all apply. If two configurations files are scheduled to run in the same hour, then we fall back on the alphabetical ordering specified above.
+
+
 More information
 ================
 
