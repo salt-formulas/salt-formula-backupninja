@@ -64,7 +64,7 @@ backupninja_postgresql_handler:
 
 {%- endif %}
 
-{%- if pillar.mysql is defined %}
+{%- if pillar.mysql is defined  and pillar.mysql.get('_support', {}).get('backupninja', {}).get('enabled', False) %}
 
 backupninja_mysql_handler:
   file.managed:
