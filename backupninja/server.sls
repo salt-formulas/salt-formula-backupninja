@@ -10,6 +10,15 @@ backupninja_user:
   - name: backupninja
   - system: true
   - home: {{ server.home_dir }}
+  - groups:
+    - backupninja
+
+backupninja_group:
+  group.present:
+  - name: backupninja
+  - system: true
+  - require_in:
+    - user: backupninja_user
 
 {{ server.home_dir }}:
   file.directory:
